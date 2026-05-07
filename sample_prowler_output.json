@@ -1,0 +1,113 @@
+{
+  "scan_metadata": {
+    "scan_id": "SCAN-2024-001",
+    "system_name": "CloudGoat Lab System",
+    "system_description": "Deliberately misconfigured AWS environment for GRC pipeline testing",
+    "impact_level": "moderate",
+    "scan_timestamp": "2024-01-15T14:23:00Z",
+    "aws_account_id": "123456789012",
+    "aws_region": "us-east-1",
+    "prowler_version": "3.x",
+    "scanner": "prowler"
+  },
+  "raw_findings": [
+    {
+      "prowler_check_id": "iam_user_mfa_enabled_console_access",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:iam::123456789012:user/cloudgoat-privesc-user",
+      "region": "us-east-1",
+      "raw_output": "User cloudgoat-privesc-user has console access but MFA is not enabled"
+    },
+    {
+      "prowler_check_id": "iam_policy_attached_only_to_groups_or_roles",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:iam::123456789012:user/cloudgoat-privesc-user",
+      "region": "us-east-1",
+      "raw_output": "Policy arn:aws:iam::123456789012:policy/privesc-policy is directly attached to user cloudgoat-privesc-user"
+    },
+    {
+      "prowler_check_id": "iam_administrator_access_with_mfa",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:iam::123456789012:user/cloudgoat-admin",
+      "region": "us-east-1",
+      "raw_output": "User cloudgoat-admin has AdministratorAccess but MFA is not enabled"
+    },
+    {
+      "prowler_check_id": "cloudtrail_multi_region_enabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:cloudtrail::123456789012:trail/cloudgoat-trail",
+      "region": "us-east-1",
+      "raw_output": "Trail cloudgoat-trail is not a multi-region trail"
+    },
+    {
+      "prowler_check_id": "cloudtrail_log_file_validation_enabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:cloudtrail::123456789012:trail/cloudgoat-trail",
+      "region": "us-east-1",
+      "raw_output": "Trail cloudgoat-trail does not have log file validation enabled"
+    },
+    {
+      "prowler_check_id": "cloudtrail_s3_bucket_is_not_publicly_accessible",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:s3:::cloudgoat-trail-logs",
+      "region": "us-east-1",
+      "raw_output": "S3 bucket cloudgoat-trail-logs used by CloudTrail has public access enabled"
+    },
+    {
+      "prowler_check_id": "s3_bucket_public_access",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:s3:::cloudgoat-breach-bucket",
+      "region": "us-east-1",
+      "raw_output": "Bucket cloudgoat-breach-bucket has S3 Block Public Access disabled"
+    },
+    {
+      "prowler_check_id": "s3_bucket_server_side_encryption_enabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:s3:::cloudgoat-breach-bucket",
+      "region": "us-east-1",
+      "raw_output": "Bucket cloudgoat-breach-bucket does not have server-side encryption configured"
+    },
+    {
+      "prowler_check_id": "s3_bucket_secure_transport_policy",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:s3:::cloudgoat-breach-bucket",
+      "region": "us-east-1",
+      "raw_output": "Bucket cloudgoat-breach-bucket does not have a bucket policy enforcing HTTPS"
+    },
+    {
+      "prowler_check_id": "s3_bucket_logging_enabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:s3:::cloudgoat-breach-bucket",
+      "region": "us-east-1",
+      "raw_output": "Bucket cloudgoat-breach-bucket does not have access logging enabled"
+    },
+    {
+      "prowler_check_id": "ec2_imdsv2_enabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123def456",
+      "region": "us-east-1",
+      "raw_output": "Instance i-0abc123def456 has IMDSv1 enabled, IMDSv2 is not required"
+    },
+    {
+      "prowler_check_id": "cognito_identity_pool_guest_access_disabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:cognito-identity:us-east-1:123456789012:identitypool/us-east-1:abc123",
+      "region": "us-east-1",
+      "raw_output": "Identity pool us-east-1:abc123 allows unauthenticated guest access"
+    },
+    {
+      "prowler_check_id": "securityhub_enabled",
+      "status": "FAIL",
+      "affected_resource": "arn:aws:securityhub:us-east-1:123456789012:hub/default",
+      "region": "us-east-1",
+      "raw_output": "AWS Security Hub is not enabled in us-east-1"
+    },
+    {
+      "prowler_check_id": "cloudtrail_cloudwatch_logging_enabled",
+      "status": "PASS",
+      "affected_resource": "arn:aws:cloudtrail::123456789012:trail/cloudgoat-trail",
+      "region": "us-east-1",
+      "raw_output": "Trail cloudgoat-trail is integrated with CloudWatch Logs"
+    }
+  ]
+}

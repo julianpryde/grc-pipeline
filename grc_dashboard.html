@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRC Pipeline — Compliance Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            padding: 2rem;
+        }
+        h1 { font-size: 1.6rem; color: #fff; margin-bottom: 0.25rem; }
+        h2 { font-size: 1.1rem; color: #aaa; font-weight: 400; margin-bottom: 2rem; }
+        h3 { font-size: 1rem; color: #ccc; margin-bottom: 1rem; }
+
+        .meta { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .meta-item { background: #1a1d27; padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid #2a2d3a; }
+        .meta-item .label { font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 0.05em; }
+        .meta-item .value { font-size: 1.2rem; color: #fff; font-weight: 600; margin-top: 0.25rem; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+        .card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+        .bar-label { width: 90px; font-size: 0.85rem; color: #aaa; text-align: right; }
+        .bar-track { flex: 1; background: #2a2d3a; border-radius: 4px; height: 18px; }
+        .bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+        .bar-count { width: 24px; font-size: 0.85rem; color: #ccc; }
+
+        ul { list-style: none; padding: 0; }
+        li { padding: 0.4rem 0; border-bottom: 1px solid #2a2d3a; font-size: 0.9rem; color: #bbb; }
+        li:last-child { border-bottom: none; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th {
+            background: #1a1d27;
+            color: #aaa;
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            font-weight: 500;
+            border-bottom: 1px solid #2a2d3a;
+            position: sticky;
+            top: 0;
+        }
+        td { padding: 0.6rem 0.8rem; border-bottom: 1px solid #1e2130; vertical-align: top; }
+        tr:hover td { background: #1e2130; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .resource { font-family: monospace; font-size: 0.78rem; color: #aaa; word-break: break-all; }
+        .table-wrap { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 8px; overflow-x: auto; padding: 1rem; }
+        .footer { margin-top: 2rem; font-size: 0.75rem; color: #555; text-align: center; }
+    </style>
+</head>
+<body>
+
+<h1>GRC Pipeline — Compliance Dashboard</h1>
+<h2>NIST 800-53r5 | Moderate Baseline | CloudGoat Lab System</h2>
+
+<div class="meta">
+    <div class="meta-item">
+        <div class="label">Scan ID</div>
+        <div class="value" style="font-size:0.95rem">SCAN-2024-001</div>
+    </div>
+    <div class="meta-item">
+        <div class="label">Scan Timestamp</div>
+        <div class="value" style="font-size:0.95rem">2024-01-15T14:23:00Z</div>
+    </div>
+    <div class="meta-item">
+        <div class="label">AWS Account</div>
+        <div class="value" style="font-size:0.95rem">123456789012</div>
+    </div>
+    <div class="meta-item">
+        <div class="label">Impact Level</div>
+        <div class="value">MODERATE</div>
+    </div>
+    <div class="meta-item">
+        <div class="label">Total Open Findings</div>
+        <div class="value" style="color:#d62728">13</div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h3>Findings by Severity</h3>
+        
+            <div class="bar-row">
+                <span class="bar-label">Critical</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width:50%; background:#d62728"></div>
+                </div>
+                <span class="bar-count">3</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">High</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width:100%; background:#ff7f0e"></div>
+                </div>
+                <span class="bar-count">6</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">Medium</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width:66%; background:#f0c040"></div>
+                </div>
+                <span class="bar-count">4</span>
+            </div>
+    </div>
+    <div class="card">
+        <h3>Findings by Control Family</h3>
+        <ul><li><strong>Access Control</strong>: 8 finding(s)</li><li><strong>Audit and Accountability</strong>: 7 finding(s)</li><li><strong>System and Communications Protection</strong>: 4 finding(s)</li><li><strong>Identification and Authentication</strong>: 3 finding(s)</li><li><strong>System and Information Integrity</strong>: 1 finding(s)</li></ul>
+    </div>
+</div>
+
+<div class="table-wrap">
+    <h3 style="margin-bottom:1rem">Open POA&amp;M Items</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>POA&amp;M ID</th>
+                <th>Severity</th>
+                <th>Control(s)</th>
+                <th>Finding</th>
+                <th>Affected Resource</th>
+                <th>Scenario</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td>POAM-0001</td>
+            <td><span class="badge" style="background:#d62728">CRITICAL</span></td>
+            <td>AC-6, IA-2</td>
+            <td>IAM user with AdministratorAccess policy does not have MFA enabled</td>
+            <td class="resource">arn:aws:iam::123456789012:user/cloudgoat-admin</td>
+            <td>iam_privesc_by_attachment</td>
+            <td>2024-01-30</td>
+        </tr>
+        <tr>
+            <td>POAM-0002</td>
+            <td><span class="badge" style="background:#d62728">CRITICAL</span></td>
+            <td>AU-9, AC-3</td>
+            <td>CloudTrail S3 bucket is publicly accessible</td>
+            <td class="resource">arn:aws:s3:::cloudgoat-trail-logs</td>
+            <td>cloudtrail_s3</td>
+            <td>2024-01-30</td>
+        </tr>
+        <tr>
+            <td>POAM-0003</td>
+            <td><span class="badge" style="background:#d62728">CRITICAL</span></td>
+            <td>AC-3, SC-28</td>
+            <td>S3 bucket allows public access</td>
+            <td class="resource">arn:aws:s3:::cloudgoat-breach-bucket</td>
+            <td>cloud_breach_s3</td>
+            <td>2024-01-30</td>
+        </tr>
+        <tr>
+            <td>POAM-0004</td>
+            <td><span class="badge" style="background:#ff7f0e">HIGH</span></td>
+            <td>IA-2</td>
+            <td>IAM console user without MFA enabled</td>
+            <td class="resource">arn:aws:iam::123456789012:user/cloudgoat-privesc-user</td>
+            <td>iam_privesc_by_attachment</td>
+            <td>2024-02-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0005</td>
+            <td><span class="badge" style="background:#ff7f0e">HIGH</span></td>
+            <td>AU-2, AU-12</td>
+            <td>CloudTrail not enabled in all regions</td>
+            <td class="resource">arn:aws:cloudtrail::123456789012:trail/cloudgoat-trail</td>
+            <td>cloudtrail_s3</td>
+            <td>2024-02-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0006</td>
+            <td><span class="badge" style="background:#ff7f0e">HIGH</span></td>
+            <td>SC-28</td>
+            <td>S3 bucket does not have server-side encryption enabled</td>
+            <td class="resource">arn:aws:s3:::cloudgoat-breach-bucket</td>
+            <td>cloud_breach_s3</td>
+            <td>2024-02-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0007</td>
+            <td><span class="badge" style="background:#ff7f0e">HIGH</span></td>
+            <td>SC-8, AC-3</td>
+            <td>S3 bucket does not enforce HTTPS-only access</td>
+            <td class="resource">arn:aws:s3:::cloudgoat-breach-bucket</td>
+            <td>cloud_breach_s3</td>
+            <td>2024-02-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0008</td>
+            <td><span class="badge" style="background:#ff7f0e">HIGH</span></td>
+            <td>SC-8, AC-6</td>
+            <td>EC2 instance does not enforce IMDSv2</td>
+            <td class="resource">arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123def456</td>
+            <td>ec2_ssrf</td>
+            <td>2024-02-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0009</td>
+            <td><span class="badge" style="background:#ff7f0e">HIGH</span></td>
+            <td>IA-8, AC-3</td>
+            <td>Cognito identity pool allows unauthenticated guest access</td>
+            <td class="resource">arn:aws:cognito-identity:us-east-1:123456789012:identitypool/us-east-1:abc123</td>
+            <td>vulnerable_cognito</td>
+            <td>2024-02-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0010</td>
+            <td><span class="badge" style="background:#f0c040">MEDIUM</span></td>
+            <td>AC-6, AC-2</td>
+            <td>IAM policy attached directly to user instead of group or role</td>
+            <td class="resource">arn:aws:iam::123456789012:user/cloudgoat-privesc-user</td>
+            <td>iam_privesc_by_attachment</td>
+            <td>2024-04-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0011</td>
+            <td><span class="badge" style="background:#f0c040">MEDIUM</span></td>
+            <td>AU-9</td>
+            <td>CloudTrail log file validation not enabled</td>
+            <td class="resource">arn:aws:cloudtrail::123456789012:trail/cloudgoat-trail</td>
+            <td>cloudtrail_s3</td>
+            <td>2024-04-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0012</td>
+            <td><span class="badge" style="background:#f0c040">MEDIUM</span></td>
+            <td>AU-2, AU-12</td>
+            <td>S3 bucket access logging is not enabled</td>
+            <td class="resource">arn:aws:s3:::cloudgoat-breach-bucket</td>
+            <td>cloud_breach_s3</td>
+            <td>2024-04-14</td>
+        </tr>
+        <tr>
+            <td>POAM-0013</td>
+            <td><span class="badge" style="background:#f0c040">MEDIUM</span></td>
+            <td>SI-2, AU-2</td>
+            <td>AWS Security Hub is not enabled in this region</td>
+            <td class="resource">arn:aws:securityhub:us-east-1:123456789012:hub/default</td>
+            <td>N/A</td>
+            <td>2024-04-14</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">
+    Generated by GRC Pipeline &mdash; Scanner: prowler &mdash; 2026-05-07 00:47 UTC
+</div>
+
+</body>
+</html>

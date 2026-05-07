@@ -1,0 +1,140 @@
+{
+  "prowler_mappings": [
+    {
+      "prowler_check_id": "iam_user_mfa_enabled_console_access",
+      "prowler_service": "iam",
+      "maps_to_controls": ["IA-2"],
+      "finding_title": "IAM console user without MFA enabled",
+      "default_severity": "high",
+      "cloudgoat_scenario": "iam_privesc_by_attachment"
+    },
+    {
+      "prowler_check_id": "iam_policy_attached_only_to_groups_or_roles",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-6", "AC-2"],
+      "finding_title": "IAM policy attached directly to user instead of group or role",
+      "default_severity": "medium",
+      "cloudgoat_scenario": "iam_privesc_by_attachment"
+    },
+    {
+      "prowler_check_id": "iam_user_no_setup_initial_access_key",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-2", "AC-6"],
+      "finding_title": "IAM user has unused initial access key",
+      "default_severity": "medium",
+      "cloudgoat_scenario": "iam_privesc_by_attachment"
+    },
+    {
+      "prowler_check_id": "iam_administrator_access_with_mfa",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-6", "IA-2"],
+      "finding_title": "IAM user with AdministratorAccess policy does not have MFA enabled",
+      "default_severity": "critical",
+      "cloudgoat_scenario": "iam_privesc_by_attachment"
+    },
+    {
+      "prowler_check_id": "cloudtrail_multi_region_enabled",
+      "prowler_service": "cloudtrail",
+      "maps_to_controls": ["AU-2", "AU-12"],
+      "finding_title": "CloudTrail not enabled in all regions",
+      "default_severity": "high",
+      "cloudgoat_scenario": "cloudtrail_s3"
+    },
+    {
+      "prowler_check_id": "cloudtrail_log_file_validation_enabled",
+      "prowler_service": "cloudtrail",
+      "maps_to_controls": ["AU-9"],
+      "finding_title": "CloudTrail log file validation not enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": "cloudtrail_s3"
+    },
+    {
+      "prowler_check_id": "cloudtrail_s3_bucket_is_not_publicly_accessible",
+      "prowler_service": "cloudtrail",
+      "maps_to_controls": ["AU-9", "AC-3"],
+      "finding_title": "CloudTrail S3 bucket is publicly accessible",
+      "default_severity": "critical",
+      "cloudgoat_scenario": "cloudtrail_s3"
+    },
+    {
+      "prowler_check_id": "cloudtrail_cloudwatch_logging_enabled",
+      "prowler_service": "cloudtrail",
+      "maps_to_controls": ["AU-2", "AU-3"],
+      "finding_title": "CloudTrail trail is not integrated with CloudWatch Logs",
+      "default_severity": "medium",
+      "cloudgoat_scenario": "cloudtrail_s3"
+    },
+    {
+      "prowler_check_id": "s3_bucket_public_access",
+      "prowler_service": "s3",
+      "maps_to_controls": ["AC-3", "SC-28"],
+      "finding_title": "S3 bucket allows public access",
+      "default_severity": "critical",
+      "cloudgoat_scenario": "cloud_breach_s3"
+    },
+    {
+      "prowler_check_id": "s3_bucket_server_side_encryption_enabled",
+      "prowler_service": "s3",
+      "maps_to_controls": ["SC-28"],
+      "finding_title": "S3 bucket does not have server-side encryption enabled",
+      "default_severity": "high",
+      "cloudgoat_scenario": "cloud_breach_s3"
+    },
+    {
+      "prowler_check_id": "s3_bucket_secure_transport_policy",
+      "prowler_service": "s3",
+      "maps_to_controls": ["SC-8", "AC-3"],
+      "finding_title": "S3 bucket does not enforce HTTPS-only access",
+      "default_severity": "high",
+      "cloudgoat_scenario": "cloud_breach_s3"
+    },
+    {
+      "prowler_check_id": "s3_bucket_logging_enabled",
+      "prowler_service": "s3",
+      "maps_to_controls": ["AU-2", "AU-12"],
+      "finding_title": "S3 bucket access logging is not enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": "cloud_breach_s3"
+    },
+    {
+      "prowler_check_id": "ec2_imdsv2_enabled",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["SC-8", "AC-6"],
+      "finding_title": "EC2 instance does not enforce IMDSv2",
+      "default_severity": "high",
+      "cloudgoat_scenario": "ec2_ssrf"
+    },
+    {
+      "prowler_check_id": "ec2_instance_profile_attached",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["AC-6", "AC-2"],
+      "finding_title": "EC2 instance has no IAM instance profile attached",
+      "default_severity": "low",
+      "cloudgoat_scenario": "ec2_ssrf"
+    },
+    {
+      "prowler_check_id": "cognito_identity_pool_guest_access_disabled",
+      "prowler_service": "cognito",
+      "maps_to_controls": ["IA-8", "AC-3"],
+      "finding_title": "Cognito identity pool allows unauthenticated guest access",
+      "default_severity": "high",
+      "cloudgoat_scenario": "vulnerable_cognito"
+    },
+    {
+      "prowler_check_id": "cognito_user_pool_mfa_enabled",
+      "prowler_service": "cognito",
+      "maps_to_controls": ["IA-2", "IA-8"],
+      "finding_title": "Cognito user pool does not have MFA enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": "vulnerable_cognito"
+    },
+    {
+      "prowler_check_id": "securityhub_enabled",
+      "prowler_service": "securityhub",
+      "maps_to_controls": ["SI-2", "AU-2"],
+      "finding_title": "AWS Security Hub is not enabled in this region",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    }
+  ]
+}

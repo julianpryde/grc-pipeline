@@ -1,0 +1,136 @@
+{
+  "controls": [
+    {
+      "control_id": "AC-2",
+      "title": "Account Management",
+      "family": "Access Control",
+      "nist_revision": "800-53r5",
+      "baseline": ["moderate", "high"],
+      "description": "Manage system accounts including establishing, activating, modifying, disabling, and removing accounts.",
+      "assessment_objective": "Verify that IAM accounts are inventoried, reviewed, and access is commensurate with role.",
+      "automatable": true,
+      "evidence_type": ["configuration", "inventory"]
+    },
+    {
+      "control_id": "AC-3",
+      "title": "Access Enforcement",
+      "family": "Access Control",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Enforce approved authorizations for logical access to information and system resources.",
+      "assessment_objective": "Verify that access to S3 buckets and other resources is restricted to authorized principals only.",
+      "automatable": true,
+      "evidence_type": ["configuration", "policy_review"]
+    },
+    {
+      "control_id": "AC-6",
+      "title": "Least Privilege",
+      "family": "Access Control",
+      "nist_revision": "800-53r5",
+      "baseline": ["moderate", "high"],
+      "description": "Employ the principle of least privilege, allowing only authorized accesses necessary to accomplish assigned tasks.",
+      "assessment_objective": "Verify no IAM entity has permissions beyond their operational requirement.",
+      "automatable": true,
+      "evidence_type": ["configuration", "policy_review"]
+    },
+    {
+      "control_id": "AU-2",
+      "title": "Event Logging",
+      "family": "Audit and Accountability",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Identify the types of events that the system is capable of logging in support of the audit function.",
+      "assessment_objective": "Verify CloudTrail is enabled in all regions and captures management and data events.",
+      "automatable": true,
+      "evidence_type": ["configuration", "log_review"]
+    },
+    {
+      "control_id": "AU-3",
+      "title": "Content of Audit Records",
+      "family": "Audit and Accountability",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Ensure audit records contain sufficient information to establish what events occurred, when, where, sources, outcomes, and identities.",
+      "assessment_objective": "Verify CloudTrail records include user identity, event time, source IP, and affected resource.",
+      "automatable": true,
+      "evidence_type": ["log_review"]
+    },
+    {
+      "control_id": "AU-9",
+      "title": "Protection of Audit Information",
+      "family": "Audit and Accountability",
+      "nist_revision": "800-53r5",
+      "baseline": ["moderate", "high"],
+      "description": "Protect audit information and tools from unauthorized access, modification, and deletion.",
+      "assessment_objective": "Verify CloudTrail log destination bucket is not publicly accessible and has log file validation enabled.",
+      "automatable": true,
+      "evidence_type": ["configuration", "access_review"]
+    },
+    {
+      "control_id": "AU-12",
+      "title": "Audit Record Generation",
+      "family": "Audit and Accountability",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Provide audit record generation capability for the list of events defined in AU-2.",
+      "assessment_objective": "Verify audit logging is active and generating records across all required services and regions.",
+      "automatable": true,
+      "evidence_type": ["configuration", "log_review"]
+    },
+    {
+      "control_id": "IA-2",
+      "title": "Identification and Authentication",
+      "family": "Identification and Authentication",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Uniquely identify and authenticate organizational users and processes acting on behalf of organizational users.",
+      "assessment_objective": "Verify MFA is enforced for all IAM users with console access.",
+      "automatable": true,
+      "evidence_type": ["configuration"]
+    },
+    {
+      "control_id": "IA-8",
+      "title": "Identification and Authentication for Non-Organizational Users",
+      "family": "Identification and Authentication",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Uniquely identify and authenticate non-organizational users or processes acting on behalf of non-organizational users.",
+      "assessment_objective": "Verify Cognito identity pools do not grant unauthenticated access to AWS resources.",
+      "automatable": true,
+      "evidence_type": ["configuration"]
+    },
+    {
+      "control_id": "SC-8",
+      "title": "Transmission Confidentiality and Integrity",
+      "family": "System and Communications Protection",
+      "nist_revision": "800-53r5",
+      "baseline": ["moderate", "high"],
+      "description": "Implement cryptographic mechanisms to prevent unauthorized disclosure of information during transmission.",
+      "assessment_objective": "Verify EC2 instances enforce IMDSv2 and sensitive data is not transmitted over unencrypted channels.",
+      "automatable": true,
+      "evidence_type": ["configuration"]
+    },
+    {
+      "control_id": "SC-28",
+      "title": "Protection of Information at Rest",
+      "family": "System and Communications Protection",
+      "nist_revision": "800-53r5",
+      "baseline": ["moderate", "high"],
+      "description": "Protect the confidentiality and integrity of information at rest.",
+      "assessment_objective": "Verify S3 buckets have server-side encryption enabled with approved key types.",
+      "automatable": true,
+      "evidence_type": ["configuration"]
+    },
+    {
+      "control_id": "SI-2",
+      "title": "Flaw Remediation",
+      "family": "System and Information Integrity",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Identify, report, and correct information system flaws; test software updates before installation.",
+      "assessment_objective": "Verify Security Hub findings are tracked and remediated within defined timeframes.",
+      "automatable": true,
+      "evidence_type": ["vulnerability_scan", "patch_review"]
+    }
+  ]
+}
