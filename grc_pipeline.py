@@ -59,7 +59,7 @@ log = logging.getLogger("grc-pipeline")
 # CONFIG
 # ─────────────────────────────────────────────
 
-BASE_DIR      = Path(__file__).parent.parent
+BASE_DIR      = Path(__file__).parent
 DATA_DIR      = BASE_DIR / "data"
 OUTPUT_DIR    = BASE_DIR / "output"
 DB_PATH       = BASE_DIR / "grc_evidence.db"
