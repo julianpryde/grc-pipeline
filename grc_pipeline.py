@@ -50,7 +50,7 @@ import argparse
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-7s  %(message)s",
-    datefmt="%H:%M:%S",
+    datefmt="%Y-%m-%dT%H:%M:%S",
 )
 log = logging.getLogger("grc-pipeline")
 
