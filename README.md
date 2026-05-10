@@ -12,14 +12,14 @@
 This pipeline automates evidence collection and POA&M generation for a
 cloud-hosted system assessed against a NIST 800-53r5 Moderate control baseline.
 
-It ingests Prowler JSON output, maps findings to specific 800-53 controls,
+It ingests Prowler OCSF JSON output, maps findings to specific 800-53 controls,
 persists evidence to a SQLite audit store, and generates both a CSV POA&M
 and an HTML compliance dashboard.
 
 **Architecture:**
 
 ```
-Prowler (scanner) → sample_prowler_output.json
+Prowler (scanner) → input/<scan>.ocsf.json   (OCSF Detection Findings)
         ↓
 grc_pipeline.py (enrichment layer)
         ↓ reads
@@ -44,21 +44,26 @@ dashboard_<scan_id>.html → stakeholder dashboard
 
 ## Running the Pipeline
 
-### Against Sample Data (no AWS required)
+### Against an OCSF Scan File
+
+Drop a Prowler OCSF JSON file into `input/` and run:
 
 ```bash
 cd grc-pipeline
-python3 src/grc_pipeline.py --input data/sample_prowler_output.json
+python3 src/grc_pipeline.py --input input/<scan>.ocsf.json
 ```
+
+The default `--input` points to the bundled scan in `input/`, so omitting
+the flag also works once a file is in place.
 
 ### Against Live Prowler Output
 
 ```bash
-# 1. Run Prowler and export JSON
-prowler aws --output-formats json --output-directory ./prowler-output
+# 1. Run Prowler and export OCSF JSON
+prowler aws --output-formats ocsf-json --output-directory ./input
 
 # 2. Feed output into pipeline
-python3 src/grc_pipeline.py --input prowler-output/<filename>.json
+python3 src/grc_pipeline.py --input input/<filename>.ocsf.json
 ```
 
 ### Filter by Date (continuous monitoring mode)
@@ -66,7 +71,7 @@ python3 src/grc_pipeline.py --input prowler-output/<filename>.json
 ```bash
 # Only process findings from scans after a given date
 python3 src/grc_pipeline.py \
-    --input data/sample_prowler_output.json \
+    --input input/<scan>.ocsf.json \
     --since 2024-01-01
 ```
 
@@ -86,7 +91,7 @@ python3 src/grc_pipeline.py \
 |------|---------|
 | `data/controls.json` | NIST 800-53r5 control definitions. Add controls here when expanding scope. |
 | `data/prowler_mappings.json` | Translates Prowler check IDs to control IDs. Update when Prowler adds new checks. |
-| `data/sample_prowler_output.json` | Test fixture — simulates CloudGoat misconfiguration findings. |
+| `input/` | Drop Prowler OCSF JSON scan files here. Contents are gitignored. |
 | `src/grc_pipeline.py` | Main pipeline. Loader → Enrichment → Persistence → Reporting. |
 | `grc_evidence.db` | SQLite evidence store. Contains scans, findings, and evidence tables. |
 | `output/` | Generated POA&M CSVs and HTML dashboards. |
