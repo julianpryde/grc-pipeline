@@ -89,6 +89,17 @@
       "evidence_type": ["configuration"]
     },
     {
+      "control_id": "IA-5",
+      "title": "Authenticator Management",
+      "family": "Identification and Authentication",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Manage system authenticators by verifying identity, establishing initial content, ensuring sufficient strength, and protecting against unauthorized disclosure or modification, including rotation and revocation.",
+      "assessment_objective": "Verify access keys and passwords are rotated within policy and that authenticator strength requirements (length, complexity, reuse) are enforced.",
+      "automatable": true,
+      "evidence_type": ["configuration", "policy_review"]
+    },
+    {
       "control_id": "IA-8",
       "title": "Identification and Authentication for Non-Organizational Users",
       "family": "Identification and Authentication",
@@ -98,6 +109,17 @@
       "assessment_objective": "Verify Cognito identity pools do not grant unauthenticated access to AWS resources.",
       "automatable": true,
       "evidence_type": ["configuration"]
+    },
+    {
+      "control_id": "SC-7",
+      "title": "Boundary Protection",
+      "family": "System and Communications Protection",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Monitor and control communications at external boundaries and key internal boundaries; deny network traffic by default and allow by exception.",
+      "assessment_objective": "Verify security groups, NACLs, and default VPC configurations restrict ingress from the internet and follow deny-by-default for high-risk ports.",
+      "automatable": true,
+      "evidence_type": ["configuration", "network_review"]
     },
     {
       "control_id": "SC-8",
@@ -131,6 +153,17 @@
       "assessment_objective": "Verify Security Hub findings are tracked and remediated within defined timeframes.",
       "automatable": true,
       "evidence_type": ["vulnerability_scan", "patch_review"]
+    },
+    {
+      "control_id": "SI-4",
+      "title": "System Monitoring",
+      "family": "System and Information Integrity",
+      "nist_revision": "800-53r5",
+      "baseline": ["low", "moderate", "high"],
+      "description": "Monitor the system to detect attacks, indicators of potential attacks, and unauthorized connections; identify unauthorized use of the system.",
+      "assessment_objective": "Verify continuous monitoring services (GuardDuty, Config, Security Hub) are enabled and producing findings across all in-scope regions.",
+      "automatable": true,
+      "evidence_type": ["configuration", "log_review"]
     }
   ]
 }
