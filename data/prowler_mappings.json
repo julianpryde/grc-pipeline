@@ -131,7 +131,7 @@
     {
       "prowler_check_id": "securityhub_enabled",
       "prowler_service": "securityhub",
-      "maps_to_controls": ["SI-2", "AU-2"],
+      "maps_to_controls": ["SI-4"],
       "finding_title": "AWS Security Hub is not enabled in this region",
       "default_severity": "medium",
       "cloudgoat_scenario": null
@@ -195,7 +195,7 @@
     {
       "prowler_check_id": "iam_rotate_access_key_90_days",
       "prowler_service": "iam",
-      "maps_to_controls": ["AC-2"],
+      "maps_to_controls": ["IA-5"],
       "finding_title": "IAM user access key has not been rotated in the last 90 days",
       "default_severity": "medium",
       "cloudgoat_scenario": null
@@ -243,7 +243,7 @@
     {
       "prowler_check_id": "ec2_securitygroup_default_restrict_traffic",
       "prowler_service": "ec2",
-      "maps_to_controls": ["AC-3"],
+      "maps_to_controls": ["SC-7"],
       "finding_title": "Default VPC security group does not restrict all inbound and outbound traffic",
       "default_severity": "high",
       "cloudgoat_scenario": null
@@ -251,7 +251,7 @@
     {
       "prowler_check_id": "ec2_securitygroup_allow_ingress_from_internet_to_any_port",
       "prowler_service": "ec2",
-      "maps_to_controls": ["AC-3"],
+      "maps_to_controls": ["SC-7"],
       "finding_title": "Security group allows ingress from 0.0.0.0/0 to any port",
       "default_severity": "critical",
       "cloudgoat_scenario": null
@@ -259,7 +259,7 @@
     {
       "prowler_check_id": "ec2_securitygroup_allow_ingress_from_internet_to_port_22",
       "prowler_service": "ec2",
-      "maps_to_controls": ["AC-3"],
+      "maps_to_controls": ["SC-7"],
       "finding_title": "Security group allows SSH (port 22) ingress from the internet",
       "default_severity": "high",
       "cloudgoat_scenario": null
@@ -267,7 +267,7 @@
     {
       "prowler_check_id": "ec2_securitygroup_allow_ingress_from_internet_to_port_3389",
       "prowler_service": "ec2",
-      "maps_to_controls": ["AC-3"],
+      "maps_to_controls": ["SC-7"],
       "finding_title": "Security group allows RDP (port 3389) ingress from the internet",
       "default_severity": "high",
       "cloudgoat_scenario": null
@@ -379,7 +379,7 @@
     {
       "prowler_check_id": "guardduty_is_enabled",
       "prowler_service": "guardduty",
-      "maps_to_controls": ["SI-2", "AU-2"],
+      "maps_to_controls": ["SI-4"],
       "finding_title": "Amazon GuardDuty is not enabled in this region",
       "default_severity": "medium",
       "cloudgoat_scenario": null
@@ -387,7 +387,7 @@
     {
       "prowler_check_id": "config_recorder_all_regions_enabled",
       "prowler_service": "config",
-      "maps_to_controls": ["AU-2", "AU-12"],
+      "maps_to_controls": ["SI-4"],
       "finding_title": "AWS Config recorder is not enabled in all regions",
       "default_severity": "medium",
       "cloudgoat_scenario": null
