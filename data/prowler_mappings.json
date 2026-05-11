@@ -135,6 +135,286 @@
       "finding_title": "AWS Security Hub is not enabled in this region",
       "default_severity": "medium",
       "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_root_mfa_enabled",
+      "prowler_service": "iam",
+      "maps_to_controls": ["IA-2"],
+      "finding_title": "Root account does not have MFA enabled",
+      "default_severity": "critical",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_root_hardware_mfa_enabled",
+      "prowler_service": "iam",
+      "maps_to_controls": ["IA-2"],
+      "finding_title": "Root account does not have a hardware MFA device",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_no_root_access_key",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-6", "IA-2"],
+      "finding_title": "Root account has active access keys",
+      "default_severity": "critical",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_avoid_root_usage",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-6", "AC-2"],
+      "finding_title": "Root account has been used recently",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_user_accesskey_unused",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-2"],
+      "finding_title": "IAM user access key has not been used in the last 90 days",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_user_console_access_unused",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-2"],
+      "finding_title": "IAM user console access has not been used in the last 90 days",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_aws_attached_policy_no_administrative_privileges",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-6"],
+      "finding_title": "AWS-managed policy grants full administrative privileges",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "iam_rotate_access_key_90_days",
+      "prowler_service": "iam",
+      "maps_to_controls": ["AC-2"],
+      "finding_title": "IAM user access key has not been rotated in the last 90 days",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "cloudtrail_kms_encryption_enabled",
+      "prowler_service": "cloudtrail",
+      "maps_to_controls": ["SC-28", "AU-9"],
+      "finding_title": "CloudTrail logs are not encrypted with a KMS CMK",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "cloudtrail_logs_s3_bucket_access_logging_enabled",
+      "prowler_service": "cloudtrail",
+      "maps_to_controls": ["AU-2", "AU-9"],
+      "finding_title": "CloudTrail S3 log bucket does not have server access logging enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "s3_account_level_public_access_blocks",
+      "prowler_service": "s3",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "S3 Block Public Access is not enabled at the account level",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "s3_bucket_object_versioning",
+      "prowler_service": "s3",
+      "maps_to_controls": ["SC-28"],
+      "finding_title": "S3 bucket does not have object versioning enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "s3_bucket_no_mfa_delete",
+      "prowler_service": "s3",
+      "maps_to_controls": ["AU-9"],
+      "finding_title": "S3 bucket does not have MFA Delete enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ec2_securitygroup_default_restrict_traffic",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "Default VPC security group does not restrict all inbound and outbound traffic",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ec2_securitygroup_allow_ingress_from_internet_to_any_port",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "Security group allows ingress from 0.0.0.0/0 to any port",
+      "default_severity": "critical",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ec2_securitygroup_allow_ingress_from_internet_to_port_22",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "Security group allows SSH (port 22) ingress from the internet",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ec2_securitygroup_allow_ingress_from_internet_to_port_3389",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "Security group allows RDP (port 3389) ingress from the internet",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ec2_ebs_default_encryption",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["SC-28"],
+      "finding_title": "EBS default encryption is not enabled in this region",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ec2_ebs_public_snapshot",
+      "prowler_service": "ec2",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "EBS snapshot is publicly shared",
+      "default_severity": "critical",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "vpc_flow_logs_enabled",
+      "prowler_service": "vpc",
+      "maps_to_controls": ["AU-2", "AU-12"],
+      "finding_title": "VPC flow logs are not enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "rds_instance_storage_encrypted",
+      "prowler_service": "rds",
+      "maps_to_controls": ["SC-28"],
+      "finding_title": "RDS instance storage is not encrypted at rest",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "rds_instance_no_public_access",
+      "prowler_service": "rds",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "RDS instance is publicly accessible",
+      "default_severity": "critical",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "rds_instance_transport_encryption_enabled",
+      "prowler_service": "rds",
+      "maps_to_controls": ["SC-8"],
+      "finding_title": "RDS instance does not enforce SSL/TLS for client connections",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "rds_instance_minor_version_upgrade_enabled",
+      "prowler_service": "rds",
+      "maps_to_controls": ["SI-2"],
+      "finding_title": "RDS instance does not have auto minor version upgrade enabled",
+      "default_severity": "low",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "kms_cmk_rotation_enabled",
+      "prowler_service": "kms",
+      "maps_to_controls": ["SC-28"],
+      "finding_title": "KMS customer-managed key does not have automatic rotation enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "elb_logging_enabled",
+      "prowler_service": "elb",
+      "maps_to_controls": ["AU-2", "AU-12"],
+      "finding_title": "Classic Load Balancer does not have access logging enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "elbv2_listeners_underneath_https",
+      "prowler_service": "elbv2",
+      "maps_to_controls": ["SC-8"],
+      "finding_title": "Application Load Balancer listener is not using HTTPS",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "cloudfront_distributions_https_enabled",
+      "prowler_service": "cloudfront",
+      "maps_to_controls": ["SC-8"],
+      "finding_title": "CloudFront distribution does not enforce HTTPS to viewers",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "cloudfront_distributions_logging_enabled",
+      "prowler_service": "cloudfront",
+      "maps_to_controls": ["AU-2", "AU-12"],
+      "finding_title": "CloudFront distribution does not have access logging enabled",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "awslambda_function_url_public",
+      "prowler_service": "lambda",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "Lambda function URL is publicly accessible without authentication",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "guardduty_is_enabled",
+      "prowler_service": "guardduty",
+      "maps_to_controls": ["SI-2", "AU-2"],
+      "finding_title": "Amazon GuardDuty is not enabled in this region",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "config_recorder_all_regions_enabled",
+      "prowler_service": "config",
+      "maps_to_controls": ["AU-2", "AU-12"],
+      "finding_title": "AWS Config recorder is not enabled in all regions",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "opensearch_service_domains_encryption_at_rest",
+      "prowler_service": "opensearch",
+      "maps_to_controls": ["SC-28"],
+      "finding_title": "OpenSearch domain does not have encryption at rest enabled",
+      "default_severity": "high",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "opensearch_service_domains_not_publicly_accessible",
+      "prowler_service": "opensearch",
+      "maps_to_controls": ["AC-3"],
+      "finding_title": "OpenSearch domain is publicly accessible",
+      "default_severity": "critical",
+      "cloudgoat_scenario": null
+    },
+    {
+      "prowler_check_id": "ecr_repositories_scan_images_on_push_enabled",
+      "prowler_service": "ecr",
+      "maps_to_controls": ["SI-2"],
+      "finding_title": "ECR repository does not scan images on push",
+      "default_severity": "medium",
+      "cloudgoat_scenario": null
     }
   ]
 }
