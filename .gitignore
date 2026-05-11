@@ -220,6 +220,5 @@ __marimo__/
 ###### Project Files ######
 grc_evidence.db
 input/*
-!input/sample_prowler_output.json
 output/*
 !output\dashboard_SCAN-2024-001_20260509_095608.html

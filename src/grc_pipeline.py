@@ -3,6 +3,9 @@
 GRC Pipeline - Automated Compliance Evidence Collector and POA&M Generator
 Maps Prowler findings to NIST 800-53r5 controls and outputs a POA&M report.
 
+Input format: Prowler OCSF JSON — a flat array of OCSF Detection Finding
+records, as emitted natively by Prowler 4.x / 5.x.
+
 Supports four output modes:
   csv       — POA&M in CSV format (CSAM-import compatible)
   html      — Stakeholder dashboard
@@ -10,11 +13,12 @@ Supports four output modes:
   regscale  — Push findings directly to RegScale via REST API
 
 Usage:
-    python grc_pipeline.py --input data/sample_prowler_output.json
-    python grc_pipeline.py --input data/sample_prowler_output.json --format csv
-    python grc_pipeline.py --input data/sample_prowler_output.json --format html
-    python grc_pipeline.py --input data/sample_prowler_output.json --format regscale
-    python grc_pipeline.py --input data/sample_prowler_output.json --since 2024-01-01
+    python grc_pipeline.py
+    python grc_pipeline.py --input input/prowler-output-337443291158-20260510084116.ocsf.json
+    python grc_pipeline.py --format csv
+    python grc_pipeline.py --format html
+    python grc_pipeline.py --format regscale
+    python grc_pipeline.py --since 2024-01-01
 
 RegScale environment variables (required for --format regscale):
     REGSCALE_URL       Base URL of your RegScale instance
@@ -61,11 +65,13 @@ log = logging.getLogger("grc-pipeline")
 
 BASE_DIR      = Path(__file__).parent.parent
 DATA_DIR      = BASE_DIR / "data"
+INPUT_DIR     = BASE_DIR / "input"
 OUTPUT_DIR    = BASE_DIR / "output"
 DB_PATH       = BASE_DIR / "grc_evidence.db"
 
 CONTROLS_FILE = DATA_DIR / "controls.json"
 MAPPINGS_FILE = DATA_DIR / "prowler_mappings.json"
+DEFAULT_INPUT = INPUT_DIR / "prowler-output-337443291158-20260510084116.ocsf.json"
 
 SEVERITY_ORDER = ["critical", "high", "medium", "low", "informational"]
 
@@ -206,9 +212,94 @@ def load_mappings(path: Path) -> dict:
     return {m["prowler_check_id"]: m for m in data["prowler_mappings"]}
 
 
-def load_prowler_output(path: Path) -> dict:
+# OCSF severity strings → the lowercase severity vocabulary used elsewhere.
+# Prowler emits "Informational" / "Low" / "Medium" / "High" / "Critical".
+_OCSF_SEVERITY = {
+    "critical":      "critical",
+    "high":          "high",
+    "medium":        "medium",
+    "low":           "low",
+    "informational": "informational",
+    "info":          "informational",
+    "unknown":       "informational",
+}
+
+
+def load_prowler_output(path: Path, system_name: str, impact_level: str) -> dict:
+    """
+    Load a Prowler OCSF JSON file and return the canonical
+    `{scan_metadata, raw_findings}` shape the rest of the pipeline expects.
+
+    OCSF input is a flat JSON array of Detection Finding records (Prowler's
+    native 4.x/5.x output). It has no top-level scan_metadata block, so we
+    synthesize one from the first finding's `unmapped.scan_id`,
+    `cloud.account.uid`, and `time_dt`.
+
+    `system_name` and `impact_level` are FISMA system attributes that don't
+    live in scanner output and are injected by the caller.
+
+    Field mapping (OCSF → raw_findings entry):
+      metadata.event_code      → prowler_check_id
+      status_code              → status            (PASS/FAIL/MANUAL/MUTED, verbatim)
+      resources[0].uid         → affected_resource
+      resources[0].region      → region            (cloud.region as fallback)
+      status_detail | message  → raw_output
+      severity                 → severity
+      remediation.desc         → remediation_hint
+    """
     with open(path) as f:
-        return json.load(f)
+        data = json.load(f)
+
+    if not isinstance(data, list):
+        raise ValueError(
+            f"Expected an OCSF JSON array in {path}, got {type(data).__name__}."
+        )
+    if not data:
+        raise ValueError(f"OCSF input {path} is empty — no findings to process.")
+
+    first = data[0]
+    unmapped = first.get("unmapped") or {}
+    cloud    = first.get("cloud") or {}
+    account  = cloud.get("account") or {}
+    product  = (first.get("metadata") or {}).get("product") or {}
+
+    scan_metadata = {
+        "scan_id":        unmapped.get("scan_id") or f"SCAN-{uuid.uuid4().hex[:8].upper()}",
+        "system_name":    system_name,
+        "impact_level":   impact_level,
+        "scan_timestamp": first.get("time_dt")
+                          or (first.get("finding_info") or {}).get("created_time_dt")
+                          or datetime.now(timezone.utc).isoformat(),
+        "aws_account_id": account.get("uid") or unmapped.get("provider_uid"),
+        "aws_region":     cloud.get("region"),
+        "scanner":        (product.get("name") or "prowler").lower(),
+    }
+
+    raw_findings = []
+    for ocsf in data:
+        resources = ocsf.get("resources") or []
+        primary   = resources[0] if resources else {}
+        cloud_f   = ocsf.get("cloud") or {}
+
+        raw_findings.append({
+            "prowler_check_id": (ocsf.get("metadata") or {}).get("event_code", ""),
+            "status":           ocsf.get("status_code", ""),
+            "affected_resource": primary.get("uid")
+                                 or primary.get("name")
+                                 or "unknown",
+            "region":           primary.get("region")
+                                or cloud_f.get("region")
+                                or "us-east-1",
+            "raw_output":       ocsf.get("status_detail")
+                                or ocsf.get("message", ""),
+            "severity":         _OCSF_SEVERITY.get(
+                                    (ocsf.get("severity") or "").lower(),
+                                    "informational",
+                                ),
+            "remediation_hint": (ocsf.get("remediation") or {}).get("desc", ""),
+        })
+
+    return {"scan_metadata": scan_metadata, "raw_findings": raw_findings}
 
 
 # ─────────────────────────────────────────────
@@ -871,7 +962,20 @@ regscale env vars (required for --format regscale):
   REGSCALE_PLAN_ID    Integer security plan ID in RegScale
         """,
     )
-    parser.add_argument("--input", required=True, help="Path to Prowler JSON output file")
+    parser.add_argument(
+        "--input",
+        default=str(DEFAULT_INPUT),
+        help=f"Path to Prowler OCSF JSON output file. Default: {DEFAULT_INPUT}",
+    )
+    parser.add_argument(
+        "--system-name", default="CloudGoat Lab System",
+        help="FISMA system name to record on the scan (OCSF input has no system_name field).",
+    )
+    parser.add_argument(
+        "--impact-level", default="moderate",
+        choices=["low", "moderate", "high"],
+        help="FISMA impact level to record on the scan (default: moderate).",
+    )
     parser.add_argument(
         "--since", default=None,
         help="Only process scans after this date (YYYY-MM-DD). Supports continuous monitoring cadence.",
@@ -892,7 +996,7 @@ regscale env vars (required for --format regscale):
     log.info("  Controls: %d  |  Mappings: %d", len(controls), len(mappings))
 
     log.info("Loading Prowler output: %s", args.input)
-    prowler_data = load_prowler_output(Path(args.input))
+    prowler_data = load_prowler_output(Path(args.input), args.system_name, args.impact_level)
     metadata     = prowler_data["scan_metadata"]
     raw_findings = prowler_data["raw_findings"]
     log.info("  Raw findings: %d", len(raw_findings))
